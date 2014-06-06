@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %} <h2>Treetest</h2> {% endblock %}
+{% block content %}
+{% load mptt_tags %}
+<div class="tree well">
+    <button type="button" class="close" aria-hidden="true">&times;</button>
+    <ul style="padding-left: 10px">
+    {% recursetree nodes %}
+        {% if not node.is_child_node %}
+        <li>
+            <span class="glyphicon glyphicon-folder-open"> {{ node.name }}</span>
+        {% else %}
+        <li>
+            <span class="glyphicon glyphicon-leaf"> {{ node.name }}</span>
+            <a title="Aufgaben" href="#"> <span class="glyphicon glyphicon-ok-circle"> </span> </a>
+        {% endif %}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+    </ul>
+</div>
+<div>
+<ul>
+    {% recursetree nodes %}
+        <li>
+            {{ node.name }}
+            {% if not node.is_leaf_node %}
+                <ul class="children">
+                    {{ children }}
+                </ul>
+            {% endif %}
+        </li>
+    {% endrecursetree %}
+</ul>
+</div>
+<div>
+    <li>
+        <span class="glyphicon glyphicon-leaf"> </span>
+        <a title="Aufgaben" href="#"> <span class="glyphicon glyphicon-ok-circle"> </span> </a>
+    </li>
+</div>
+{% endblock %}
